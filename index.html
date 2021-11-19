@@ -35,6 +35,16 @@
       React.createElement(Component, null, null),
       document.querySelector('#root')
     )
+
+    // 3. React.Fragment
+    ReactDOM.render(
+      React.createElement(
+        React.Fragment,
+        null,
+        `type 이 "React Fragment"입니다.`
+      ),
+      document.querySelector('#root')  
+    )
   </script>
 </body>
 </html>
