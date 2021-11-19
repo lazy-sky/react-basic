@@ -45,6 +45,24 @@
       ),
       document.querySelector('#root')  
     )
+
+    // 4. 복잡한 리액트 엘리먼트 모임 - 한계점: 복잡...
+    ReactDOM.render(
+      React.createElement(
+        'div', 
+        null, 
+        React.createElement('h1', null, '주제'),
+        React.createElement(
+          'ul', 
+          null, 
+          React.createElement('li', null, 'React'),
+          React.createElement('li', null, 'Vue')
+        )
+      ),
+      document.querySelector('#root')  
+    )
+
+
   </script>
 </body>
 </html>
