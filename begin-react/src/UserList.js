@@ -1,27 +1,13 @@
 import { useEffect } from 'react'
 
-// 마운트 시에 하는 작업들은 다음과 같다.
-// - props로 받은 값을 컴포넌트의 로컬 상태로 설정
-// - 외부 API 요청
-// - 라이브러리 사용
-// - setInterval을 통한 반복 작업 혹은 setTimeout을 통한 작업 예약
-
-// 언마운트 시에 하는 작업은 다음과 같다.
-// - setInterval, setTimeout을 사용하여 등록한 작업들 clear
-// - 라이브러리 인스턴스 제거
-
 function User({ user, onRemove, onToggle }) {
+  // deps 파라미터를 생략한다면, 컴포넌트가 리렌더링될 때마다 호출된다.
+  // 리액트 컴포넌트는 기본적으로 부모 컴포넌트가 리렌더링되면 자식 컴포넌트 또한 리렌더링된다.
+  // 물론 실제 DOM에 변화가 반영되는 것은 바뀐 내용이 있는 컴포넌트에만 해당한다.
+  // 하지만 가상 DOM에는 모든걸 다 렌더링하고 있다. 
   useEffect(() => {
-    console.log('user 값 설정')
     console.log(user)
-
-    return () => {
-      console.log('user가 바뀌기 전...')
-      console.log(user)
-    }
-    // deps에 특정 값을 넣게 되면, 컴포넌트가 처음 마운트/언마운트될 때에도 호출되고,
-    // 지정한 값이 바뀔 때/바뀌기 직전에도 호출된다. 
-  }, [user])
+  })
 
   return (
     <div>
