@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useCallback } from 'react'
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 
@@ -15,13 +15,23 @@ function App() {
 
   const { username, email } = inputs
 
-  const onChange = e => {
-    const { name, value } = e.target
-    setInputs({
-      ...inputs,
-      [name]: value
-    })
-  }
+  // useMemo가 특정 결과값을 재사용하는 Hook이라면, useCallback은 특정 함수를 재사용하는 Hook이다.
+  // 기존의 onChange, onRemove, onToggle은 컴포넌트가 리렌더링될 때마다 새로 만들어졌다.
+  // 물론 함수 선언 자체가 크게 성능을 저하시키지는 않는다. 하지만 재사용은 여전히 중요하다.
+  // 왜냐하면 나중에 컴포넌트에서 props가 바뀌지 않으면 가상 DOM에 새로 렌더링하는 것조차 하지 않고,
+  // 컴포넌트의 결과물을 재사용하는 최적화 작업에 필수적이기 때문이다.
+  // 사용시 주의할 점은 함수 안에서 사용하는 상태 혹은 props가 있다면 꼭 deps에 포함시켜야 한다는 것이다.
+  // 그렇게 하지 않으면 함수 내에서 해당 값들을 참조할 때 최신 값을 참조할 것이라는 보장이 없다. 
+  // props로 받아온 함수 또한 넣어줘야 한다.
+  
+  const onChange = useCallback(
+    e => {
+      const { name, value } = e.target;
+      setInputs({
+        ...inputs,
+        [name]: value
+      });
+    }, [inputs])
 
   const [users, setUsers] = useState([
     {
@@ -46,11 +56,8 @@ function App() {
 
   const nextId = useRef(4)
 
-  const onCreate = () => {
-    // 나중에 구현할 배열에 항목을 추가하는 로직
-    // ...
-
-    const user = {
+  const onCreate = useCallback(() => {
+      const user = {
       id: nextId.current,
       username,
       email
@@ -64,25 +71,19 @@ function App() {
     })
 
     nextId.current += 1
-  }
+  }, [users, username, email]) 
 
-  const onRemove = id => {
+  const onRemove = useCallback(id => {
     setUsers(users.filter(user => user.id !== id))
-  }
+  }, [users]) 
 
-  // id 값을 비교하여 id가 다르다면 그대로 두고, 같다면 active 값을 반전시키도록 구현
-  const onToggle = id => {
-    setUsers(users.map(user => user.id === id ? { ...user, active: !user.active } : user))
-  }
+  const onToggle = useCallback(id => {
+    setUsers(users.map(
+      user => user.id === id ? { ...user, active: !user.active } : user
+    ))
+  }, [users]) 
 
-  // 성능적 문제가 하나 있다. 바로 input의 바꿀때도 함수가 호출된다는 것.
-  // 활성 사용자 수를 세는 건, users에 변화가 있을 때만 해야하는데, 
-  // input 값이 바뀔 때도 컴포넌트가 리렌더링되므로 불필요하게 호출되고 있다. 
-  // useMemo를 함수를 사용하여 성능을 최적화할 수 있다.
 
-  // useMemo의 첫 번째 파라미터는 어떻게 연산할지 정의하는 함수, 두 번째는 deps 배열.
-  // deps 안에 넣은 내용이 바뀌면 등록된 함수를 호출하여 값을 연산하고, 
-  // 내용이 바뀌지 않았다면 이전에 연산한 값을 재사용한다.
   const count = useMemo(()=> countActiveUsers(users), [users])
 
   return (
