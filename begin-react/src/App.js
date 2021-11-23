@@ -15,15 +15,15 @@ function App() {
 
   const { username, email } = inputs
 
-  // useMemo가 특정 결과값을 재사용하는 Hook이라면, useCallback은 특정 함수를 재사용하는 Hook이다.
-  // 기존의 onChange, onRemove, onToggle은 컴포넌트가 리렌더링될 때마다 새로 만들어졌다.
-  // 물론 함수 선언 자체가 크게 성능을 저하시키지는 않는다. 하지만 재사용은 여전히 중요하다.
-  // 왜냐하면 나중에 컴포넌트에서 props가 바뀌지 않으면 가상 DOM에 새로 렌더링하는 것조차 하지 않고,
-  // 컴포넌트의 결과물을 재사용하는 최적화 작업에 필수적이기 때문이다.
-  // 사용시 주의할 점은 함수 안에서 사용하는 상태 혹은 props가 있다면 꼭 deps에 포함시켜야 한다는 것이다.
-  // 그렇게 하지 않으면 함수 내에서 해당 값들을 참조할 때 최신 값을 참조할 것이라는 보장이 없다. 
-  // props로 받아온 함수 또한 넣어줘야 한다.
+  // 함수형 업데이트를 하게 되면, setUsers에 등록하는 콜백함수의 파라미터에서 최신 users를 참조할 수 있다.
+  // 그래서 deps에 users를 넣지 않아도 된다.
+  // 이로써 특정 항목을 수정하게 될 때, 해당 항목만 리렌더링된다.
+  // cf) 리액트 개발자 도구의 버그인지 createUser도 렌더링되는 것처럼 보이는데,
+  // 로그를 찍어보면 렌더링 되지 않고 있는 걸 확인할 수 있다.
   
+  // 리액트 개발시 useCallback, useMemo, React.memo는 컴포넌트의 성능을 실제로 개선할 수 있는 상황에서만 써야 한다.
+  // - 렌더링 최적화하지 않을 컴포넌트에 React.memo를 사용하는 것은 불필요한 props 비교만 하게 한다.
+
   const onChange = useCallback(
     e => {
       const { name, value } = e.target;
@@ -31,7 +31,7 @@ function App() {
         ...inputs,
         [name]: value
       });
-    }, [inputs])
+    }, [])
 
   const [users, setUsers] = useState([
     {
@@ -71,17 +71,17 @@ function App() {
     })
 
     nextId.current += 1
-  }, [users, username, email]) 
+  }, [username, email]) 
 
   const onRemove = useCallback(id => {
     setUsers(users.filter(user => user.id !== id))
-  }, [users]) 
+  }, []) 
 
   const onToggle = useCallback(id => {
     setUsers(users.map(
       user => user.id === id ? { ...user, active: !user.active } : user
     ))
-  }, [users]) 
+  }, []) 
 
 
   const count = useMemo(()=> countActiveUsers(users), [users])

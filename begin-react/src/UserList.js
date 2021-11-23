@@ -1,4 +1,6 @@
-function User({ user, onRemove, onToggle }) {
+import React from 'react';
+
+const User = React.memo(function User({ user, onRemove, onToggle }) {
   return (
     <div>
       <b style={{
@@ -13,7 +15,7 @@ function User({ user, onRemove, onToggle }) {
       <button onClick={() => onRemove(user.id)}>삭제</button>
     </div>
   )
-}
+})
 
 function UserList({ users, onRemove, onToggle }) {
   return (
@@ -25,4 +27,4 @@ function UserList({ users, onRemove, onToggle }) {
   )
 }
 
-export default UserList
+export default React.memo(UserList)
