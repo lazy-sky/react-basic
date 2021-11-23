@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 
@@ -78,7 +78,12 @@ function App() {
   // 성능적 문제가 하나 있다. 바로 input의 바꿀때도 함수가 호출된다는 것.
   // 활성 사용자 수를 세는 건, users에 변화가 있을 때만 해야하는데, 
   // input 값이 바뀔 때도 컴포넌트가 리렌더링되므로 불필요하게 호출되고 있다. 
-  const count = countActiveUsers(users)
+  // useMemo를 함수를 사용하여 성능을 최적화할 수 있다.
+
+  // useMemo의 첫 번째 파라미터는 어떻게 연산할지 정의하는 함수, 두 번째는 deps 배열.
+  // deps 안에 넣은 내용이 바뀌면 등록된 함수를 호출하여 값을 연산하고, 
+  // 내용이 바뀌지 않았다면 이전에 연산한 값을 재사용한다.
+  const count = useMemo(()=> countActiveUsers(users), [users])
 
   return (
     <>
