@@ -1,6 +1,7 @@
 import { useRef, useMemo, useCallback, useReducer } from 'react'
 import UserList from './UserList';
 import CreateUser from './CreateUser';
+import useInputs from './hooks/useInputs'
 
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는중...')
@@ -8,11 +9,6 @@ function countActiveUsers(users) {
 }
 
 const initialState = {
-  inputs: {
-    username: '',
-    email: ''
-  },
-
   users: [
     {
       id: 1,
@@ -37,17 +33,8 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'CHANGE_INPUT':
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.name]: action.value
-        }
-      }
     case 'CREATE_USER':
       return {
-        inputs: initialState.inputs,
         users: state.users.concat(action.user)
       }
     case 'TOGGLE_USER':
@@ -69,19 +56,14 @@ function reducer(state, action) {
 }
 
 function App() {
+  const [{ username, email }, onChange, reset] = useInputs({
+    username: '',
+    email: ''
+  })
+
   const [state, dispatch] = useReducer(reducer, initialState)
   const { users } = state
-  const { username, email } = state.inputs
   const nextId = useRef(4)
-
-  const onChange = useCallback(e => {
-    const { name, value } = e.target 
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value
-    })
-  }, [])
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -93,8 +75,10 @@ function App() {
       }
     })
 
+    reset()
+
     nextId.current += 1
-  }, [username, email])
+  }, [username, email, reset])
 
   const onToggle = useCallback(id => {
     dispatch({
@@ -127,8 +111,3 @@ function App() {
 }
 
 export default App;
-
-// useReducer vs useState
-// 정답은 없다.
-// 컴포넌트에서 관리하는 값이 딱 하나고, 그 값이 단순하다면 useState가 편할 것이다.
-// 반대로 관리하는 값이 여러 개고, 상태 구조가 복잡하다면 useReducer가 편할 수 있다.
