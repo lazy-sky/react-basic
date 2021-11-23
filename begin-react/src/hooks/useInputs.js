@@ -5,20 +5,40 @@
 // 만드는 방법은 그 안에서 useState, useEffect, useReducer, useCallback 등 Hooks를 사용하여,
 // 원하는 기능을 구현해주고, 컴포넌트에서 사용하고 싶은 값들을 반환하면 된다.
 
-import { useState, useCallback } from 'react'
+import { useReducer, useCallback } from 'react'
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CHANGE':
+      return {
+        ...state,
+        [action.name]: action.value
+      }
+    case 'RESET':
+      return Object.keys(state).reduce((acc, cur) => {
+        acc[cur] = '';
+        
+        return acc;
+      }, {});
+    default:
+      return state
+  }
+}
 
 function useInputs(initialForm) {
-  const [form, setForm] = useState(initialForm)
+  const [form, dispatch] = useReducer(reducer, initialForm)
 
   const onChange = useCallback(e => {
     const { name, value } = e.target
-    setForm(form => ({
-      ...form,
-      [name]: value
-    }))
+
+    dispatch({
+      type: 'CHANGE',
+      name, 
+      value
+    })
   }, [])
 
-  const reset = useCallback(() => setForm(initialForm), [initialForm])
+  const reset = useCallback(() => dispatch({ type: 'RESET'}), [])
 
   return [form, onChange, reset] 
 }
