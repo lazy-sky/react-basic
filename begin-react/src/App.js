@@ -2,6 +2,11 @@ import { useState, useRef } from 'react'
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 
+function countActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...')
+  return users.filter(user => user.active).length
+}
+
 function App() {
   const [inputs, setInputs] = useState({
     username: '',
@@ -70,6 +75,11 @@ function App() {
     setUsers(users.map(user => user.id === id ? { ...user, active: !user.active } : user))
   }
 
+  // 성능적 문제가 하나 있다. 바로 input의 바꿀때도 함수가 호출된다는 것.
+  // 활성 사용자 수를 세는 건, users에 변화가 있을 때만 해야하는데, 
+  // input 값이 바뀔 때도 컴포넌트가 리렌더링되므로 불필요하게 호출되고 있다. 
+  const count = countActiveUsers(users)
+
   return (
     <>
       <CreateUser 
@@ -79,6 +89,7 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
+      <div>활성 사용자 수: {count}</div>
     </>
   );
 }
