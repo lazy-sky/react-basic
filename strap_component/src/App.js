@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import ReactstrapCard from './ReactstrapCard';
+import ReactstrapCollapse from './ReactstrapCollapse';
 
 function App() {
   return (
     <div className="App">
-      <ReactstrapCard/>
+      <ReactstrapCollapse/>
     </div>
   );
 }
