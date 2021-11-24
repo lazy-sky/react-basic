@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import AxiosTest from './AxiosTest';
+import PromiseThen from './PromiseThen';
 
 function App() {
   return (
     <div className="App">
-      <AxiosTest/>
+      <PromiseThen/>
     </div>
   );
 }
