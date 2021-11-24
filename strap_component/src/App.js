@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import ReactstrapFade from './ReactstrapFade';
+import ReactstrapForm from './ReactstrapForm';
 
 function App() {
   return (
     <div className="App">
-      <ReactstrapFade/>
+      <ReactstrapForm/>
     </div>
   );
 }
