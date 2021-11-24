@@ -1,18 +1,35 @@
-import React from 'react';
+// UserDispatch Context를 조회하기 위해 useContext 훅을 사용
+import React, { useContext } from 'react';
+import { UserDispatch } from './App';
 
-const User = React.memo(function User({ user, onRemove, onToggle }) {
+const User = React.memo(function User({ user }) {
+  const dispatch = useContext(UserDispatch);
+
   return (
     <div>
       <b style={{
         cursor: 'pointer',
         color: user.active ? 'green': 'black'
       }}
-      onClick={() => onToggle(user.id)}
+      onClick={() => {
+        dispatch({
+          type: 'TOGGLE_USER',
+          id: user.id
+        })
+      }}
       >
         {user.username}
       </b> 
       <span>{user.email}</span>
-      <button onClick={() => onRemove(user.id)}>삭제</button>
+      <button onClick={() => {
+        dispatch({
+          type: 'REMOVE_USER',
+          id: user.id
+        })
+      }}
+      >
+          삭제
+      </button>
     </div>
   )
 })
@@ -33,11 +50,11 @@ const User = React.memo(function User({ user, onRemove, onToggle }) {
 // <UserDispatch.Provider value={dispatch}>...</UserDispatch.Provider>
 // 이렇게 설정하면 Provider에 의해 감싸진 컴포넌트 어디서든지 Context의 값을 다른 곳에서 조회할 수 있다.
 
-function UserList({ users, onRemove, onToggle }) {
+function UserList({ users }) {
   return (
     <div>
       {users.map(user => (
-        <User user={user} key={user.id} onRemove={onRemove} onToggle={onToggle}/>
+        <User user={user} key={user.id} />
       ))}
     </div>
   )
