@@ -1,10 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import ReactstrapForm from './ReactstrapForm';
+import SweetalertConfirm from './SweetalertConfirm';
+import Sweetalert from './Sweetalert';
 
 function App() {
   return (
     <div className="App">
-      <ReactstrapForm/>
+      <SweetalertConfirm/>
+      <Sweetalert/>
     </div>
   );
 }
