@@ -1,6 +1,7 @@
 import React, { useMemo, useReducer } from 'react'
 import UserList from './UserList';
 import CreateUser from './CreateUser';
+import ErrorTest from './ErrorTest';
 
 // 리액트에서 배열이나 객체를 업데이트할 땐 직접 수정하지 않고 불변성을 지켜주며 업데이트해야 한다.
 // 대부분의 경우 전개 연산자나 배열 내장 함수를 사용하는 건 어렵지 않지만,
@@ -85,14 +86,18 @@ function reducer(state, action) {
 export const UserDispatch = React.createContext(null);
 
 function App() {
-  
-
   const [state, dispatch] = useReducer(reducer, initialState)
   const { users } = state
   const count = useMemo(() => countActiveUsers(users), [users])
 
+  const test = {
+    id: 1,
+    username: 'sky'
+  };
+
   return (
     <UserDispatch.Provider value={dispatch}>
+      <ErrorTest test={test} />
       <CreateUser />
       <UserList users={users} />
       <div>활성 사용자 수: {count}</div>
