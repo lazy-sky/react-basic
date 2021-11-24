@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import Ref from './Ref';
+import InputStrap from './InputStrap';
 
-function App() {
+function App() {  
   return (
     <div className="App">
-      <Ref />
+      <InputStrap />
     </div>
   );
 }
