@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import Jquery from './Jquery'
+import ReactstrapCard from './ReactstrapCard';
 
 function App() {
   return (
     <div className="App">
-      <Jquery/>
+      <ReactstrapCard/>
     </div>
   );
 }
