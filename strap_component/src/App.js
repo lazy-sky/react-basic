@@ -1,12 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Input } from 'reactstrap'
+import Jquery from './Jquery'
 
 function App() {
   return (
     <div className="App">
-      <Container>
-        <Input></Input>
-      </Container>
+      <Jquery/>
     </div>
   );
 }
