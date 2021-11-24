@@ -40,6 +40,14 @@ class Counter extends Component {
   // 1. constructor에서 bind, 가장 일반적인 방법
   constructor(props) {
     super(props);
+
+    // 클래스 컴포넌트에서 상태를 관리할 땐 state를 사용한다.
+    // constructor 내부에서 this.state를 설정해주면 된다.
+    // 클래스 컴포넌트의 state는 무조건 객체 형태여야 한다.
+    this.state = {
+      counter: 0
+    };
+
     this.handleIncrease = this.handleIncrease.bind(this);
     this.handleDecrease = this.handleDecrease.bind(this);
   }
@@ -69,7 +77,7 @@ class Counter extends Component {
   render() {
     return (
       <div>
-        <h1>0</h1>
+        <h1>{this.state.counter}</h1>
         <button onClick={this.handleIncrease}>+1</button>
         <button onClick={this.handleDecrease}>-1</button>
       </div>
