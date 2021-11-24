@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import ReactstrapCollapse from './ReactstrapCollapse';
+import ReactstrapFade from './ReactstrapFade';
 
 function App() {
   return (
     <div className="App">
-      <ReactstrapCollapse/>
+      <ReactstrapFade/>
     </div>
   );
 }
