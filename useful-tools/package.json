@@ -22,9 +22,12 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "airbnb",
+      "airbnb취소",
       "prettier"
-    ]
+    ],
+    "rules": {
+      "react/jsx-filename-extension": 0
+    }
   },
   "browserslist": {
     "production": [
