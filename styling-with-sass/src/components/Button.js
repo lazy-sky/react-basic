@@ -1,8 +1,10 @@
 import classNames from 'classnames';
 import './Button.scss';
 
-export default function Button({ children, size }) {
-  return <button className={classNames('Button', size)}>{children}</button>;
+export default function Button({ children, size, color }) {
+  return (
+    <button className={classNames('Button', size, color)}>{children}</button>
+  );
 }
 
 // className에 CSS 클래스 이름을 동적으로 넣는 방법
@@ -13,4 +15,5 @@ export default function Button({ children, size }) {
 
 Button.defaultProps = {
   size: 'medium',
+  color: 'blue',
 };
