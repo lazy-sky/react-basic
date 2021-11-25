@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
-function App() {
+const App = function () {
   const [value, setValue] = useState('');
   useEffect(() => {
     console.log(value);
@@ -12,6 +12,6 @@ function App() {
       <p>와우</p>
     </div>
   );
-}
+};
 
 export default App;
