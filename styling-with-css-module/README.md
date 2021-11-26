@@ -48,3 +48,15 @@ CSS Module을 사용하기 위해 별도로 설치해야 하는 라이브러리�
 해당 라이브러리를 사용하면 Font Awesome, Ionicons, Material Design Icons 등의 아이콘들을 컴포넌트 형태로 쉽게 사용할 수 있다. 라이브러리의 문서를 열어 원하는 아이콘들을 불러와 사용하면 된다.
 
 - https://react-icons.github.io/react-icons/#/
+
+## -(대쉬)가 들어있는 클래스명에 대하여
+
+CSS Module을 사용할 땐 `styles.icon`과 같은 식으로 객체 안에 있는 값을 조회해야 한다.
+
+그렇기 때문에 클래스 이름에 `-`가 있다면 `styles['my-class']`와 같이 사용해야 한다.
+
+만약 여러 개라면 `${styles.one} ${styles.two}`와 같이 작성해야 한다.
+
+조건부 스타일링을 해야 한다면 더욱 번거롭다. `${styles.one} ${condition ? styles.two : ''}`
+
+그런데 classnames 라이브러리에 있는 bind 기능을 사용하면 CSS Module을 더 편하게 사용 할 수 있다.
