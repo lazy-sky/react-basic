@@ -12,6 +12,17 @@ const colorStyles = css`
       &:active {
         background: ${darken(0.1, selected)};
       }
+      ${(props) =>
+        props.outline &&
+        css`
+          color: ${selected};
+          background: none;
+          border: 1px solid ${selected};
+          &:hover {
+            background: ${selected};
+            color: white;
+          }
+        `}
     `;
   }}
 `;
