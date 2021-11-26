@@ -60,3 +60,21 @@ CSS Module을 사용할 땐 `styles.icon`과 같은 식으로 객체 안에 있�
 조건부 스타일링을 해야 한다면 더욱 번거롭다. `${styles.one} ${condition ? styles.two : ''}`
 
 그런데 classnames 라이브러리에 있는 bind 기능을 사용하면 CSS Module을 더 편하게 사용 할 수 있다.
+
+## 기타
+
+CSS Module을 사용하고 있는 파일에서 클래스 이름을 고유화하지 않고 전역 클래스 이름을 사용하고 싶다면,
+
+```css
+:global .my-global-name {
+  /*  */
+}
+```
+
+반대로 CSS Module을 사용하지 않는 곳에서 고유 이름을 만들고 싶다면,
+
+```css
+:local .make-this-local {
+  /*  */
+}
+```
