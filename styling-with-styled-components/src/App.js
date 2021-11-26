@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+
+// 이렇게 스타일을 입력함과 동시에 해당 스타일을 가진 컴포넌트를 만들 수 있다.
+// input을 스타일링하고 싶다면 styled.input과 같은 식으로.
+const Circle = styled.div`
+  width: 5rem;
+  height: 5rem;
+  background: black;
+  border-radius: 50%;
+`;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <Circle />;
 }
 
 export default App;
