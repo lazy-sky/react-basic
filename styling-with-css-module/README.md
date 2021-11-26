@@ -42,3 +42,9 @@ export default Box;
     3. 컴포넌트 내부에서 보여지는 CSS 클래스는 선택자를 잘 활용한다. (e.g., `.MyForm .my-input`)
 
 CSS Module을 사용하기 위해 별도로 설치해야 하는 라이브러리는 없다. 이 기능은 webpack에서 사용하는 css-loader에서 지원되는데, CRA 프로젝트에는 이미 적용되어있다.
+
+## react-icons
+
+해당 라이브러리를 사용하면 Font Awesome, Ionicons, Material Design Icons 등의 아이콘들을 컴포넌트 형태로 쉽게 사용할 수 있다. 라이브러리의 문서를 열어 원하는 아이콘들을 불러와 사용하면 된다.
+
+- https://react-icons.github.io/react-icons/#/
