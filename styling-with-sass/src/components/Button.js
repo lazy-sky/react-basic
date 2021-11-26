@@ -3,10 +3,24 @@ import './Button.scss';
 
 // props로 받아와서 객체 안에 집어 넣은 다음, classNames에 포함시켰다.
 // 이렇게 하면 outline, fullWidth 값이 true일 때만 해당 클래스가 적용된다.
-export default function Button({ children, size, color, outline, fullWidth }) {
+
+// 필요한 이벤트가 있을 때마다 매번 onClick, onMouseMove... 등을 넣어주는 건 귀찮다.
+// 이를 해결해주는 것이 spread, rest다.
+// ...rest는 지정한 props를 제외한 값들을 rest라는 객체에 모아주고,
+// {...rest}는 rest 객체 안에 있는 값들을 모두 해당 태그에 설정해준다.
+
+export default function Button({
+  children,
+  size,
+  color,
+  outline,
+  fullWidth,
+  ...rest
+}) {
   return (
     <button
       className={classNames('Button', size, color, { outline, fullWidth })}
+      {...rest}
     >
       {children}
     </button>
