@@ -1,9 +1,13 @@
 import classNames from 'classnames';
 import './Button.scss';
 
-export default function Button({ children, size, color, outline }) {
+// props로 받아와서 객체 안에 집어 넣은 다음, classNames에 포함시켰다.
+// 이렇게 하면 outline, fullWidth 값이 true일 때만 해당 클래스가 적용된다.
+export default function Button({ children, size, color, outline, fullWidth }) {
   return (
-    <button className={classNames('Button', size, color, { outline })}>
+    <button
+      className={classNames('Button', size, color, { outline, fullWidth })}
+    >
       {children}
     </button>
   );
