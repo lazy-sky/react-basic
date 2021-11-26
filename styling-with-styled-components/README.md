@@ -56,3 +56,7 @@ const StyledDiv = styled`
   background: ${(props) => props.color};
 `;
 ```
+
+### polished
+
+CSS in JS애서 Sass의 `lighten()`, `darken`과 같은 유틸 함수를 사용하고 싶다면 polished 라이브러리를 사용하면 된다.
