@@ -30,7 +30,7 @@ function reducer(state, action) {
 
 // 첫 번째 파라미터는 API 요청을 시작하는 함수,
 // 두 번째는 useEffect에서 deps로 활용될 배열, 현재는 불필요하므로(처음 렌더링할 때만 필요하므로) 기본값은 빈 배열.
-function useAsync(callback, deps = []) {
+function useAsync(callback, deps = [], skip = false) {
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
     data: null,
@@ -48,6 +48,7 @@ function useAsync(callback, deps = []) {
   };
 
   useEffect(() => {
+    if (skip) return;
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
