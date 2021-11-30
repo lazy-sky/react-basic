@@ -1,7 +1,8 @@
 import axios from 'axios';
-import useAsync from './useAsync';
+import { useAsync } from 'react-async';
 
-async function getUser(id) {
+// useAsync를 사용할 땐 Promise를 반환하는 함수의 파라미터를 객체 형태로 해야 한다.
+async function getUser({ id }) {
   const response = await axios.get(
     `https://jsonplaceholder.typicode.com/users/${id}`,
   );
@@ -9,11 +10,17 @@ async function getUser(id) {
 }
 
 function User({ id }) {
-  const [state] = useAsync(() => getUser(id), [id]);
+  const {
+    isLoading,
+    data: user,
+    error,
+  } = useAsync({
+    promiseFn: getUser,
+    id,
+    watch: id,
+  });
 
-  const { loading, data: user, error } = state;
-
-  if (loading) return <div>로딩중...</div>;
+  if (isLoading) return <div>로딩중...</div>;
   if (error) return <div>에러 발생!!</div>;
   if (!user) return <div>유저가 없습니다.</div>;
 
