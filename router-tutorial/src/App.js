@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import About from "./About";
 
-function App() {
+// 라이브러리가 버전 6으로 업그레이드 되면서 몇 가지가 바뀐 듯하다.
+// https://reactrouter.com/docs/en/v6/upgrading/v5
+
+// 일단은 Switch가 Routes로, component가 element로 바뀌었다.
+// exact props가 사라졌다.
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
