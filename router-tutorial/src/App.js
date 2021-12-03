@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
+import Profile from "./Profile";
 
 // 라이브러리가 버전 6으로 업그레이드 되면서 몇 가지가 바뀐 듯하다.
 // https://reactrouter.com/docs/en/v6/upgrading/v5
@@ -25,7 +26,8 @@ const App = () => {
       <hr />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="about" element={<About />} />
+        <Route path="profiles/:username" element={<Profile />} />
       </Routes>
     </div>
   );
