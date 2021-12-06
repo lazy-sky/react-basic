@@ -1,70 +1,164 @@
-# Getting Started with Create React App
+# Redux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Redux vs Context API
 
-## Available Scripts
+Redux를 사용하는 것과 Context API를 사용하는 것엔 어떤 차이가 있을까?
 
-In the project directory, you can run:
+### 미들웨어
 
-### `yarn start`
+Redux에는 미들웨어 개념이 존재한다. Redux로 상태를 관리하면 리듀서 함수를 사용한다.
+Redux의 미들웨어를 사용하면 액션 객체가 리듀서에서 처리되기 전에 원하는 작업들을 수행할 수 있다.
+이를테면,
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- 특전 조건에 따라 액션이 무시되게 한다.
+- 액션을 콘솔에 출력하거나, 서버 쪽에 로깅한다.
+- 액션이 디스패치됐을 때, 이를 수정해서 리듀서에게 전달한다.
+- 특정 액션이 발생했을 때, 이에 기반한 다른 액션을 발생시킨다.
+- 특정 액션이 발생했을 때, 특정 자바스크립트 함수를 실행시킨다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+미들웨어는 주로 비동기 작업을 처리할 때 많이 사용된다.
+`useReducer`에서도 외부 라이브러리를 사용하면 미들웨어를 사용할 수 있지만, 자주 사용되는 방식은 아니다.
 
-### `yarn test`
+### 유용한 함수와 Hooks
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Context API와 `useReducer`를 사용할 땐 Context와 Provider, 각종 Hook들을 따로 만들어 사용했던 것과 달리,
+Redux는 이와 비슷한 작업을 편리하게 해줄 수 있는 여러 기능들이 있다.
 
-### `yarn build`
+- `connect` 함수를 사용하면 Redux의 상태 또는 액션 생성 함수를 컴포턴트의 props로 받아올 수 있다.
+- `useSelector`, `useDispatch`, `useStore`와 같은 Hooks를 사용하면 상태를 조회하거나 액션을 디스패치할 수 있다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`connect` 함수와 `useSelector` 함수는 내부적으로 최적화가 잘 돼있어, 실제 상태가 바뀔 때만 컴포넌트가 리렌더링된다.
+반면 Context API를 사용할 땐 Context가 지니고 있는 상태가 바뀌면 Context의 Provider 내부 컴포넌트들이 모두 리렌더링된다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 하나의 커다란 상태
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Redux에서는 모든 글로벌 상태를 하나의 커다란 상태 객체에 넣어서 사용하는 것이 필수다. 때문에 매번 Context를 새로 만드는 수고로움을 덜 수 있다.
 
-### `yarn eject`
+## Redux는 언제 써야 할까?
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- 프로젝트의 규모가 클 때
+- 비동기 작업을 자주할 떄
+- Redux를 사용하는 게 편하다면
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Redux에서 사용되는 키워드
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 액션(Action)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+상태에 어떠한 변화가 필요하게 될 땐, 액션이란 것을 발생시킨다.
+액션은 다음과 같은 형식의 객체로 표현된다.
 
-## Learn More
+```jsx
+{
+  type: 'TOGGLE_VALUE';
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+액션 객체는 `type` 필드를 필수적으로 갖는다. 그 외의 값들은 임의대로 넣을 수 있다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```jsx
+{
+  type: "ADD_TODO",
+  data: {
+    id: 0,
+    text: "리덕스 배우기"
+  }
+},
+{
+  type: "CHANGE_INPUT",
+  text: "안녕하세요"
+}
+```
 
-### Code Splitting
+### 액션 생성 함수(Action Creator)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+액셩 생성 함수는 파라미터를 받아와서 액션 객체 형태를 만들어준다.
 
-### Analyzing the Bundle Size
+```jsx
+export function addTodo(data) {
+  return {
+    type: 'ADD_TODO',
+    data,
+  };
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+export const changeInput = (text) => ({
+  type: 'CHANGE_INPUT',
+  text,
+});
+```
 
-### Making a Progressive Web App
+이러한 액션 생성 함수를 만들어서 사용하는 이유는 나중에 컴포넌트에서 더욱 쉽게 액션을 발생시키기 위함이다.
+그래서 보통 함수 앞에 `export` 키워드를 붙여 다른 파일에서 불러와서 사용한다.
+Redux를 사용 할 때 액션 생성함수를 사용하는것이 필수적이진 않다. 액션을 발생 시킬 때마다 직접 액션 객체를 작성할수도 있다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 리듀서(Reducer)
 
-### Advanced Configuration
+리듀서는 변화를 일으키는 함수다. 두 가지 파라미터를 받는다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```jsx
+function reducer(state, action) {
+  // 상태 업데이트 로직
+  return alteredState;
+}
+```
 
-### Deployment
+리듀서는 현재의 상태와 전달받은 액션을 참고하여 새로운 상태를 만들어 반환한다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+e.g.,
 
-### `yarn build` fails to minify
+```jsx
+function counter(state, action) {
+  switch (action.type) {
+    case 'INCREASE':
+      return state + 1;
+    case 'DECREASE':
+      return state - 1;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    // useReducer에선 일반적으로 default: 부분에 throw new Error('Unhandled Action')와 같이 에러를 발생시키도록 처리하지만,
+    // Redux의 리듀서에서는 기존 state를 그대로 반환하도록 작성해야한다.
+    default:
+      return state;
+  }
+}
+```
+
+### 스토어(Store)
+
+Redux에선 한 애플리케이션당 하나의 스토어를 만들게 된다. 스토어 안에는, 현재의 앱 상태, 리듀서, 그리고 몇 가지 내장 함수들이 들어있다.
+
+### 디스패치(dispatch)
+
+스토어의 내장 함수 중 하나이다. 액션을 발생시킨다. `dispatch`라는 함수에는 액션을 파라미터로 전달한다.
+그렇게 호출하면 스토어는 리듀서 함수를 실행시켜 해당 액션을 처리하는 로직이 있다면 액션을 참고하여 새로운 상태를 만든다.
+
+### 구독(subscribe)
+
+스토어의 내장 함수 중 하나이다. `subscirbe` 함수는 함수 형태의 값을 파라미터로 받는다.
+특정 함수를 전달해주면, 액션이 디스패치되었을 때마다 전달해준 함수가 호출된다.
+보통 이 함수를 직접 사용하기보단, react-redux 라이브러리에서 제공하는 `connect` 함수 또는 `useSelector` Hook을 사용하여 스토어의 상태를 구독한다.
+
+## 규칙
+
+Redux를 프로젝트에서 사용하게 될 땐 꼭 지켜야할 규칙들이 있다.
+
+### 하나의 어플리케이션 안에는 하나의 스토어
+
+사실 여러 개의 스토어를 사용하는 것도 가능하지만 권장되지는 않는다.
+
+### 상태는 읽기 전용
+
+리액트와 마찬가지로 Redux에서도 상태를 직접 업데이트하지 않는다.
+
+Redux에서 불변성을 유지하는 이유는 내부적으로 데이터가 변경되는 것을 감지하기 위하여 shallow equality 검사를 하기 때문이다.
+이를 통해 객체의 변화를 감지 할 때 객체의 깊숙한 안쪽까지 비교를 하는 것이 아니라 겉핥기 식으로 비교를 하여 좋은 성능을 유지할 수 있다.
+
+### 변화를 일으키는 함수, 리듀서는 순수 함수
+
+- 리듀서 함수는 이전 상태와, 액션 객체를 파라미터로 받는다.
+- 이전의 상태는 절대로 건드리지 않고, 변화를 일으킨 새로운 상태 객체를 만들어 반환한다.
+- 똑같은 파라미터로 호출된 리듀서 함수는 언제나 똑같은 결과값을 반환해야 한다.
+
+동일한 인풋엔 언제나 동일한 아웃풋이 반환되어야 한다. 그런데 일부 로직들 중에선 실행할 때마다 다른 결과 값이 다타날 수도 있다.
+이를 테면, `new Date()`나 랜덤 숫자 생성, 네트워크 요청 등.
+
+이러한 작업들은 순수하지 않으므로, 리듀서 함수의 바깥에서 처리해줘야 한다. 이를 위해 리덕스 미들웨어를 사용하곤 한다.
