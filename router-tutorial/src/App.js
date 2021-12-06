@@ -3,6 +3,7 @@ import Home from "./Home";
 import About from "./About";
 import Profiles from "./Profiles";
 import Profile from "./Profile";
+import NavigateSample from "./NavigateSample";
 
 // 라이브러리가 버전 6으로 업그레이드 되면서 몇 가지가 바뀐 듯하다.
 // https://reactrouter.com/docs/en/v6/upgrading/v5
@@ -26,6 +27,9 @@ const App = () => {
         <li>
           <Link to="profiles">프로필 목록</Link>
         </li>
+        <li>
+          <Link to="/history">예제</Link>
+        </li>
       </ul>
       <hr />
       <Routes>
@@ -36,6 +40,7 @@ const App = () => {
         <Route path="profiles/*" element={<Profiles />}>
           <Route path=":username" element={<Profile />} />
         </Route>
+        <Route path="/history" element={<NavigateSample />} />
       </Routes>
     </div>
   );
