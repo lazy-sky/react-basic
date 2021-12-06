@@ -41,6 +41,7 @@ const App = () => {
           <Route path=":username" element={<Profile />} />
         </Route>
         <Route path="/history" element={<NavigateSample />} />
+        <Route path="*" element={<div>Not Found Page</div>}></Route>
       </Routes>
     </div>
   );
