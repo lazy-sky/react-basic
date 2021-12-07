@@ -11,6 +11,7 @@ const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* Provider로 store를 넣어서 App을 감싸면 그 안에 있는 모든 컴포넌튼느 리덕스 스토어에 접근할 수 있게 된다. */}
     <Provider store={store}>
       <App />
     </Provider>
