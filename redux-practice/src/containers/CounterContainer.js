@@ -9,10 +9,11 @@ import { increase, decrease, setDiff } from '../modules/counter';
 function CounterContainer() {
   // useSelector는 리덕스 스토어의 상태를 조회하는 Hook이다.
   // state의 값은 store.getState() 호출 결과와 같다.
-  const { number, diff } = useSelector((state) => ({
-    number: state.counter.number,
-    diff: state.counter.diff,
-  }));
+
+  // useSelector를 여러 번 사용하여 낭비 렌더링을 막는다.
+  // 해당 값들이 바뀌었을 때만 컴포넌트가 리렌더링된다.
+  const number = useSelector((state) => state.counter.number);
+  const diff = useSelector((state) => state.counter.diff);
 
   // useDispatch는 리덕스 스토어의 dispatch를 함수에서 사용할 수 있게 해주는 Hook이다.
   const dispatch = useDispatch();
