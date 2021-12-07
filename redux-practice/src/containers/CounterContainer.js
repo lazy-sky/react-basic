@@ -3,7 +3,7 @@
 // HTML 태그들을 사용하지 않고 다른 프레젠테이셔널 컴포넌트들을 불러와서 사용한다.
 
 import { useSelector, useDispatch } from 'react-redux';
-import Counter from '../componenets/Counter';
+import Counter from '../components/Counter';
 import { increase, decrease, setDiff } from '../modules/counter';
 
 function CounterContainer() {
